@@ -1,4 +1,4 @@
-name: ddev-vite
+name: ddev-vite-sidecar
 
 pre_install_actions:
   - |

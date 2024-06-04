@@ -1,9 +1,9 @@
 setup() {
   set -eu -o pipefail
   export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
-  export TESTDIR=~/tmp/test-ddev-vite
+  export TESTDIR=~/tmp/test-ddev-vite-sidecar
   mkdir -p $TESTDIR
-  export PROJNAME=test-ddev-vite
+  export PROJNAME=test-ddev-vite-sidecar
   export DDEV_NON_INTERACTIVE=true
   ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
   cd "${TESTDIR}"
@@ -56,8 +56,8 @@ teardown() {
 
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get ddev/ddev-ddev-vite with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ddev/ddev-ddev-vite
+  echo "# ddev get s2b/ddev-vite-sidecar with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get s2b/ddev-vite-sidecar
   ddev restart >/dev/null
   install_vite
   start_dev_server
