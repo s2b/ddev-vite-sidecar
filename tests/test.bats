@@ -52,8 +52,6 @@ teardown() {
 }
 
 @test "install from release and run dev server" {
-  skip "no release yet"
-
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
   echo "# ddev get s2b/ddev-vite-sidecar with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
