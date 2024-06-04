@@ -40,7 +40,7 @@ teardown() {
   [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR}
 }
 
-@test "install from directory" {
+@test "install from directory and run dev server" {
   set -eu -o pipefail
   cd ${TESTDIR}
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
@@ -51,7 +51,9 @@ teardown() {
   health_checks
 }
 
-@test "install from release" {
+@test "install from release and run dev server" {
+  skip "no release yet"
+
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
   echo "# ddev get ddev/ddev-ddev-vite with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
@@ -62,3 +64,22 @@ teardown() {
   health_checks
 }
 
+@test "fail to install in apache project" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+  ddev config --webserver-type apache-fpm
+  run ddev get ${DIR}
+  [ "$status" -eq 1 ]
+}
+
+@test "install from directory and run build" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+  ddev get ${DIR}
+  ddev restart
+  install_vite
+  touch index.html
+  ddev vite build --manifest
+  test -f dist/index.html
+  test -f dist/.vite/manifest.json
+}
