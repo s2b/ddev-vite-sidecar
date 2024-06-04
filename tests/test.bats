@@ -11,6 +11,24 @@ setup() {
   ddev start -y >/dev/null
 }
 
+install_vite() {
+  ddev exec npm i vite
+}
+
+start_dev_server() {
+  # Start dev server in the background to be able to continue test
+  ddev vite &
+
+  # Wait maximum 5s until vite is ready for requests
+  for _ in `seq 1 10`; do
+    echo -n .
+    if ddev exec nc -z localhost 5173; then
+      return
+    fi
+    sleep 0.5
+  done
+}
+
 health_checks() {
   curl -s -D - -o /dev/null https://${PROJNAME}.ddev.site/_vite/@vite/client | grep "HTTP/2 200"
 }
@@ -28,8 +46,8 @@ teardown() {
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
-  ddev exec npm i vite
-  ddev vite &
+  install_vite
+  start_dev_server
   health_checks
 }
 
@@ -39,8 +57,8 @@ teardown() {
   echo "# ddev get ddev/ddev-ddev-vite with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ddev/ddev-ddev-vite
   ddev restart >/dev/null
-  ddev exec npm i vite
-  ddev vite &
+  install_vite
+  start_dev_server
   health_checks
 }
 
