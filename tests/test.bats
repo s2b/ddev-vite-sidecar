@@ -12,9 +12,7 @@ setup() {
 }
 
 health_checks() {
-  # Do something useful here that verifies the add-on
-  # ddev exec "curl -s elasticsearch:9200" | grep "${PROJNAME}-elasticsearch"
-  ddev exec "curl -s https://localhost:443/"
+  curl -s -D - -o /dev/null https://${PROJNAME}.ddev.site/_vite/@vite/client | grep "HTTP/2 200"
 }
 
 teardown() {
@@ -30,6 +28,8 @@ teardown() {
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
+  ddev exec npm i vite
+  ddev vite &
   health_checks
 }
 
@@ -39,6 +39,8 @@ teardown() {
   echo "# ddev get ddev/ddev-ddev-vite with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ddev/ddev-ddev-vite
   ddev restart >/dev/null
+  ddev exec npm i vite
+  ddev vite &
   health_checks
 }
 
