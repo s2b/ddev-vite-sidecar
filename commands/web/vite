@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#ddev-generated
+
+## Description: Run vite inside the web container. Servers started by vite (dev, preview) will be configured to be proxied through the project's web server at route /_vite/
+## Usage: vite dev|serve|build|optimize|preview vite [flags] [args]
+## Example: "ddev vite" or "ddev vite build" or "ddev vite build --outDir path/to/output/"
+## ExecRaw: true
+## HostWorkingDir: true
+## AutocompleteTerms: ["dev","serve","build","optimize","preview"]
+
+COMMAND="${1:-dev}"
+OPTIONS=$@
+
+if [[ "${COMMAND:0:1}" == "-" ]]; then
+    COMMAND="dev"
+else
+    OPTIONS=${@:2}
+fi
+
+if [[ $COMMAND == "dev" ]] || [[ $COMMAND == "serve" ]] || [[ $COMMAND == "preview" ]]; then
+    npx vite $COMMAND --host localhost --port 5173 --strictPort --base /_vite/ "$OPTIONS"
+else
+    npx vite $COMMAND "$OPTIONS"
+fi
