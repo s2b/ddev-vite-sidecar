@@ -4,7 +4,7 @@ pre_install_actions:
   - |
     #ddev-nodisplay
     #ddev-description:Check webserver type
-    if [[ $DDEV_WEBSERVER_TYPE) != "nginx-fpm" ]]; then
+    if [[ $DDEV_WEBSERVER_TYPE != "nginx-fpm" ]]; then
       echo "This package is currently only compatible with nginx-fpm";
       exit 1;
     fi
