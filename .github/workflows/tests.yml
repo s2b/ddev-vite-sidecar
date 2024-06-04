@@ -1,0 +1,42 @@
+name: tests
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+  schedule:
+  - cron: '25 08 * * *'
+
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: Debug with tmate
+        required: false
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# This is required for "gautamkrishnar/keepalive-workflow", see "ddev/github-action-add-on-test"
+permissions:
+  actions: write
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        ddev_version: [stable, HEAD]
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ddev/github-action-add-on-test@v2
+        with:
+          ddev_version: ${{ matrix.ddev_version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          debug_enabled: ${{ github.event.inputs.debug_enabled }}
+          addon_repository: ${{ env.GITHUB_REPOSITORY }}
+          addon_ref: ${{ env.GITHUB_REF }}
