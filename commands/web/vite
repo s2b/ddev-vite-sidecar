@@ -15,11 +15,11 @@ OPTIONS=$@
 if [[ "${COMMAND:0:1}" == "-" ]]; then
     COMMAND="dev"
 else
-    OPTIONS=${@:2}
+    OPTIONS="${@:2}"
 fi
 
 if [[ $COMMAND == "dev" ]] || [[ $COMMAND == "serve" ]] || [[ $COMMAND == "preview" ]]; then
-    npx vite $COMMAND --host localhost --port 5173 --strictPort "$OPTIONS"
+    npx vite $COMMAND --host localhost --port 5173 --strictPort $OPTIONS
 else
-    npx vite $COMMAND "$OPTIONS"
+    npx vite $COMMAND $OPTIONS
 fi
