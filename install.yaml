@@ -16,6 +16,8 @@ project_files:
 
 post_install_actions:
   - |
+    #ddev-nodisplay
+    #ddev-description:Apply hostname to config files
     VITE_HOSTNAME=vite.${DDEV_PROJECT}
     VITE_DOMAIN=${VITE_HOSTNAME}.${DDEV_TLD}
     perl -pi -e 's/__VITE_HOSTNAME__/'$VITE_HOSTNAME'/g' config.vite.yaml
