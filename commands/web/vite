@@ -19,7 +19,7 @@ else
 fi
 
 if [[ $COMMAND == "dev" ]] || [[ $COMMAND == "serve" ]] || [[ $COMMAND == "preview" ]]; then
-    npx vite $COMMAND --host localhost --port 5173 --strictPort --base /_vite/ "$OPTIONS"
+    npx vite $COMMAND --host localhost --port 5173 --strictPort "$OPTIONS"
 else
     npx vite $COMMAND "$OPTIONS"
 fi

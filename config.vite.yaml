@@ -1,5 +1,8 @@
+#ddev-generated
+additional_hostnames:
+  - __VITE_HOSTNAME__
 web_environment:
-  - VITE_SERVER_URI=/_vite/
+  - VITE_SERVER_URI=https://__VITE_DOMAIN__
 
 # Enable these lines if you want to expose the vite port to the host system
 # Note that this means that only one ddev project with vite can be run at a time
