@@ -54,6 +54,7 @@ teardown() {
   ddev restart >/dev/null
   install_vite
   error_checks
+  touch index.html
   start_dev_server
   health_checks
 }
@@ -66,6 +67,7 @@ teardown() {
   ddev restart >/dev/null
   install_vite
   error_checks
+  touch index.html
   start_dev_server
   health_checks
 }
