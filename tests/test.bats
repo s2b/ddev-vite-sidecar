@@ -22,7 +22,9 @@ start_dev_server() {
   # Wait maximum 5s until vite is ready for requests
   for _ in `seq 1 10`; do
     echo -n .
-    if ddev exec nc -z localhost 5173; then
+    EXIT_CODE=0
+    ddev exec nc -z localhost 5173 || EXIT_CODE=$?
+    if [ "$EXIT_CODE" -eq "0" ]; then
       return
     fi
     sleep 0.5
