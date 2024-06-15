@@ -30,7 +30,7 @@ start_dev_server() {
 }
 
 health_checks() {
-  curl -s -D - -o /dev/null https://${PROJNAME}.ddev.site/_vite/@vite/client | grep "HTTP/2 200"
+  curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client | grep "HTTP/2 200"
 }
 
 teardown() {
