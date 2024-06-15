@@ -31,6 +31,11 @@ start_dev_server() {
   done
 }
 
+error_checks() {
+  curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client | grep "HTTP/2 502"
+  curl -s https://vite.${PROJNAME}.ddev.site/@vite/client | grep "<h1>vite not running</h1>"
+}
+
 health_checks() {
   curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client | grep "HTTP/2 200"
 }
@@ -47,8 +52,9 @@ teardown() {
   cd ${TESTDIR}
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
-  ddev restart
+  ddev restart >/dev/null
   install_vite
+  error_checks
   start_dev_server
   health_checks
 }
@@ -60,6 +66,7 @@ teardown() {
   ddev get s2b/ddev-vite-sidecar
   ddev restart >/dev/null
   install_vite
+  error_checks
   start_dev_server
   health_checks
 }
@@ -76,7 +83,7 @@ teardown() {
   set -eu -o pipefail
   cd ${TESTDIR}
   ddev get ${DIR}
-  ddev restart
+  ddev restart >/dev/null
   install_vite
   touch index.html
   ddev vite build --manifest
