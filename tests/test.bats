@@ -18,17 +18,16 @@ install_vite() {
 start_dev_server() {
   # Start dev server in the background to be able to continue test
   ddev vite &
+  sleep 1
 
   # Wait maximum 5s until vite is ready for requests
-  for _ in `seq 1 10`; do
-    echo -n .
-    EXIT_CODE=0
-    ddev exec nc -z localhost 5173 || EXIT_CODE=$?
-    if [ "$EXIT_CODE" -eq "0" ]; then
-      return
-    fi
-    sleep 0.5
-  done
+  # for _ in `seq 1 10`; do
+  #   echo -n .
+  #   if ddev exec nc -z localhost 5173; then
+  #     return
+  #   fi
+  #   sleep 0.5
+  # done
 }
 
 error_checks() {
