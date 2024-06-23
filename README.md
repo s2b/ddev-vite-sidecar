@@ -7,6 +7,11 @@
 
 ## What is ddev-vite-sidecar?
 
+* run a **single vite dev server** instance
+* in the **foreground**
+* in **DDEV** with **project's dependencies** (node version, vite version...)
+* without leaking **ports** to host system (by using a dedicated subdomain)
+
 TODO
 
 **Contributed and maintained by [@CONTRIBUTOR](https://github.com/CONTRIBUTOR)**
