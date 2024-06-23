@@ -30,12 +30,12 @@ start_dev_server() {
 }
 
 error_checks() {
-  curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client | grep "HTTP/2 502"
-  curl -s https://vite.${PROJNAME}.ddev.site/@vite/client | grep "<h1>vite not running</h1>"
+  ddev exec "curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "HTTP/2 502"
+  ddev exec "curl -s https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "<h1>vite not running</h1>"
 }
 
 health_checks() {
-  curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client | grep "HTTP/2 200"
+  ddev exec "curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "HTTP/2 200"
 }
 
 teardown() {
