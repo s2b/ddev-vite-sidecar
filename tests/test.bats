@@ -72,14 +72,6 @@ teardown() {
   health_checks
 }
 
-@test "fail to install in apache project" {
-  set -eu -o pipefail
-  cd ${TESTDIR}
-  ddev config --webserver-type apache-fpm
-  run ddev get ${DIR}
-  [ "$status" -eq 1 ]
-}
-
 @test "install from directory and run build" {
   set -eu -o pipefail
   cd ${TESTDIR}
@@ -90,4 +82,18 @@ teardown() {
   ddev vite build --manifest
   test -f dist/index.html
   test -f dist/.vite/manifest.json
+}
+
+@test "Apache: install from directory and run dev server" {
+  set -eu -o pipefail
+
+  cd ${TESTDIR}
+  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd)) for Apache" >&3
+  ddev get ${DIR}
+  ddev restart >/dev/null
+  install_vite
+  error_checks
+  touch index.html
+  start_dev_server
+  health_checks
 }

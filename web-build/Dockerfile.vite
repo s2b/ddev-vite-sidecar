@@ -1,0 +1,2 @@
+#ddev-generated
+RUN a2enmod proxy_http
