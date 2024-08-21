@@ -4,7 +4,7 @@ project_files:
   - commands/web/vite
   - apache/vite.conf
   - nginx_full/vite.conf
-  - nginx_full/vite/vite-server-not-running.html
+  - vite/vite-server-not-running.html
   - config.vite.yaml
   - web-build/Dockerfile.vite
 
