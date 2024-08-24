@@ -39,8 +39,8 @@ ddev vite build
 For a reference of all available commands please check out
 [vite's command line interface](https://vitejs.dev/guide/cli.html).
 
-Please note that all commands are executed in the current working directory **on the host system**.
-This means that you can also use the command if your vite config is not located in the project's root folder:
+Please note that all commands are executed in the current working directory **of the host system**.
+This means that you can also use the command if your `package.json` is not located in the project's root folder:
 
 ```sh
 cd frontend/
@@ -60,5 +60,5 @@ The main goals of this add-on are the following:
 * run a **single vite dev server** instance
 * in the **foreground** (no hidden process magic)
 * inside **DDEV** with the **project's dependencies** (node version, vite version...)
-* without leaking **ports** to host system (by using a dedicated subdomain)
+* without leaking **ports** to the host system (by using a dedicated subdomain)
 * with a simple CLI wrapper around vite's CLI
