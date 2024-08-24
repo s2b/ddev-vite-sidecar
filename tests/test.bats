@@ -11,10 +11,6 @@ setup() {
   ddev start -y >/dev/null
 }
 
-install_vite() {
-  ddev exec npm i vite
-}
-
 start_dev_server() {
   # Start dev server in the background to be able to continue test
   screen -d -m ddev vite
@@ -46,52 +42,76 @@ teardown() {
   [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR}
 }
 
-@test "install from directory and run dev server" {
-  set -eu -o pipefail
-  cd ${TESTDIR}
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
-  ddev restart >/dev/null
-  install_vite
-  error_checks
-  touch index.html
-  start_dev_server
-  health_checks
-}
-
 @test "install from release and run dev server" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
   echo "# ddev get s2b/ddev-vite-sidecar with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get s2b/ddev-vite-sidecar
+  VITE_PACKAGE_MANAGER=npm ddev get s2b/ddev-vite-sidecar
   ddev restart >/dev/null
-  install_vite
+  ddev exec npm i vite
   error_checks
   touch index.html
   start_dev_server
   health_checks
 }
 
-@test "install from directory and run build" {
+@test "Npm: install from directory and run build" {
   set -eu -o pipefail
   cd ${TESTDIR}
-  ddev get ${DIR}
+  VITE_PACKAGE_MANAGER=npm ddev get ${DIR}
   ddev restart >/dev/null
-  install_vite
+  ddev exec npm install -D vite
   touch index.html
   ddev vite build --manifest
   test -f dist/index.html
   test -f dist/.vite/manifest.json
 }
 
+@test "Yarn: install from directory and run build" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+  VITE_PACKAGE_MANAGER=yarn ddev get ${DIR}
+  ddev restart >/dev/null
+  ddev exec yarn add -D vite
+  touch index.html
+  ddev vite build --manifest
+  test -f dist/index.html
+  test -f dist/.vite/manifest.json
+}
+
+@test "Pnpm: install from directory and run build" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+  VITE_PACKAGE_MANAGER=pnpm ddev get ${DIR}
+  ddev restart >/dev/null
+  ddev exec npm install -g pnpm
+  ddev exec pnpm add -D vite
+  touch index.html
+  ddev vite build --manifest
+  test -f dist/index.html
+  test -f dist/.vite/manifest.json
+}
+
+@test "Nginx: install from directory and run dev server" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  VITE_PACKAGE_MANAGER=npm ddev get ${DIR}
+  ddev restart >/dev/null
+  ddev exec npm i vite
+  error_checks
+  touch index.html
+  start_dev_server
+  health_checks
+}
+
 @test "Apache: install from directory and run dev server" {
   set -eu -o pipefail
-
   cd ${TESTDIR}
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd)) for Apache" >&3
-  ddev get ${DIR}
+  VITE_PACKAGE_MANAGER=npm ddev get ${DIR}
   ddev restart >/dev/null
-  install_vite
+  ddev exec npm i vite
   error_checks
   touch index.html
   start_dev_server

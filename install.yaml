@@ -10,7 +10,6 @@ project_files:
 
 post_install_actions:
   - |
-    #ddev-nodisplay
     #ddev-description:Apply hostname to config files
     VITE_HOSTNAME=vite.${DDEV_PROJECT}
     VITE_DOMAIN=${VITE_HOSTNAME}.${DDEV_TLD}
@@ -18,3 +17,19 @@ post_install_actions:
     perl -pi -e 's/__VITE_DOMAIN__/'$VITE_DOMAIN'/g' config.vite.yaml
     perl -pi -e 's/__VITE_DOMAIN__/'$VITE_DOMAIN'/g' nginx_full/vite.conf
     perl -pi -e 's/__VITE_DOMAIN__/'$VITE_DOMAIN'/g' apache/vite.conf
+
+  - |
+    printf "\n\nWhich package manager do you want to use in your project (default: npm)? [npm, yarn, pnpm]"
+
+  - |
+    #ddev-description:Write package manager to config file
+    VITE_PACKAGE_MANAGER="${VITE_PACKAGE_MANAGER:-}"
+    if [ -z $VITE_PACKAGE_MANAGER ]; then
+      read VITE_PACKAGE_MANAGER
+    fi
+    if [ -n $VITE_PACKAGE_MANAGER ]; then
+      printf "\n"
+    fi
+    VITE_PACKAGE_MANAGER="${VITE_PACKAGE_MANAGER:-npm}"
+    printf "Using $VITE_PACKAGE_MANAGER"
+    perl -pi -e 's/__VITE_PACKAGE_MANAGER__/'$VITE_PACKAGE_MANAGER'/g' config.vite.yaml

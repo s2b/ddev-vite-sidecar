@@ -9,8 +9,27 @@
 ## HostWorkingDir: true
 ## AutocompleteTerms: ["dev","serve","build","optimize","preview"]
 
+# Preferred package manager can be specified via VITE_PACKAGE_MANAGER environment variable in config.vite.yaml
+PACKAGE_MANAGER="${VITE_PACKAGE_MANAGER:-npm}"
+
 COMMAND="${1:-dev}"
 OPTIONS=$@
+
+case $PACKAGE_MANAGER in
+    npm | npx)
+        PACKAGE_MANAGER_COMMAND="npx vite"
+        ;;
+    yarn)
+        PACKAGE_MANAGER_COMMAND="yarn exec vite --"
+        ;;
+    pnpm)
+        PACKAGE_MANAGER_COMMAND="pnpm exec vite"
+        ;;
+    *)
+        echo "Invalid node package manager specified: $PACKAGE_MANAGER_COMMAND"
+        exit 1
+        ;;
+esac
 
 if [[ "${COMMAND:0:1}" == "-" ]]; then
     COMMAND="dev"
@@ -18,8 +37,10 @@ else
     OPTIONS="${@:2}"
 fi
 
+echo "Using $PACKAGE_MANAGER to run vite..."
+
 if [[ $COMMAND == "dev" ]] || [[ $COMMAND == "serve" ]] || [[ $COMMAND == "preview" ]]; then
-    npx vite $COMMAND --host --port 5173 --strictPort $OPTIONS
+    $PACKAGE_MANAGER_COMMAND $COMMAND --host --port 5173 --strictPort $OPTIONS
 else
-    npx vite $COMMAND $OPTIONS
+    $PACKAGE_MANAGER_COMMAND $COMMAND $OPTIONS
 fi
