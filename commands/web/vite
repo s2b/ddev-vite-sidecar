@@ -26,7 +26,7 @@ case $PACKAGE_MANAGER in
         PACKAGE_MANAGER_COMMAND="pnpm exec vite"
         ;;
     *)
-        echo "Invalid node package manager specified: $PACKAGE_MANAGER_COMMAND"
+        echo "Invalid node package manager specified: $PACKAGE_MANAGER"
         exit 1
         ;;
 esac
