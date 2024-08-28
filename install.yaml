@@ -13,10 +13,10 @@ post_install_actions:
     #ddev-description:Apply hostname to config files
     VITE_HOSTNAME=vite.${DDEV_PROJECT}
     VITE_DOMAIN=${VITE_HOSTNAME}.${DDEV_TLD}
-    perl -pi -e 's/__VITE_HOSTNAME__/'$VITE_HOSTNAME'/g' config.vite.yaml
-    perl -pi -e 's/__VITE_DOMAIN__/'$VITE_DOMAIN'/g' config.vite.yaml
-    perl -pi -e 's/__VITE_DOMAIN__/'$VITE_DOMAIN'/g' nginx_full/vite.conf
-    perl -pi -e 's/__VITE_DOMAIN__/'$VITE_DOMAIN'/g' apache/vite.conf
+    cat config.vite.yaml | sed "s/__VITE_HOSTNAME__/$VITE_HOSTNAME/" > temp && mv temp config.vite.yaml
+    cat config.vite.yaml | sed "s/__VITE_DOMAIN__/$VITE_DOMAIN/" > temp && mv temp config.vite.yaml
+    cat nginx_full/vite.conf | sed "s/__VITE_DOMAIN__/$VITE_DOMAIN/" > temp && mv temp nginx_full/vite.conf
+    cat apache/vite.conf | sed "s/__VITE_DOMAIN__/$VITE_DOMAIN/" > temp && mv temp apache/vite.conf
 
   - |
     printf "\n\nWhich package manager do you want to use in your project (default: npm)? [npm, yarn, pnpm]"
@@ -32,4 +32,4 @@ post_install_actions:
     fi
     VITE_PACKAGE_MANAGER="${VITE_PACKAGE_MANAGER:-npm}"
     printf "Using $VITE_PACKAGE_MANAGER"
-    perl -pi -e 's/__VITE_PACKAGE_MANAGER__/'$VITE_PACKAGE_MANAGER'/g' config.vite.yaml
+    cat config.vite.yaml | sed "s/__VITE_PACKAGE_MANAGER__/$VITE_PACKAGE_MANAGER/" > temp && mv temp config.vite.yaml
