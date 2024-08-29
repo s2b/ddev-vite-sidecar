@@ -33,6 +33,8 @@ error_checks() {
 
 health_checks() {
   ddev exec "curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "HTTP/2 200"
+  # Test if vite can serve hidden files from node_modules
+  ddev exec "curl -s https://vite.${PROJNAME}.ddev.site/node_modules/.vite/deps/_metadata.json" | grep "\"chunks\": {}"
 }
 
 teardown() {
