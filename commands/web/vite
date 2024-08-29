@@ -3,7 +3,7 @@
 #ddev-generated
 
 ## Description: Run vite inside the web container. Servers started by vite (dev, preview) are proxied and made available at https://vite.$PROJECTNAME.ddev.site
-## Usage: vite dev|serve|build|optimize|preview vite [flags] [args]
+## Usage: vite dev|serve|build|optimize|preview [flags] [args]
 ## Example: "ddev vite" or "ddev vite build" or "ddev vite build --outDir path/to/output/"
 ## ExecRaw: true
 ## HostWorkingDir: true
