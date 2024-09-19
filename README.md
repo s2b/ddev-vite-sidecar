@@ -21,7 +21,7 @@ ddev restart
 ```
 
 During the setup process, you will be asked for your preferred frontend package manager. You can choose between
-`npm`, `yarn` and `pnpm`.
+`npm`, `yarn`, `pnpm` or `bun`.
 
 ## Usage
 

@@ -25,6 +25,9 @@ case $PACKAGE_MANAGER in
     pnpm)
         PACKAGE_MANAGER_COMMAND="pnpm exec vite"
         ;;
+    bun)
+        PACKAGE_MANAGER_COMMAND="bun vite"
+        ;;
     *)
         echo "Invalid node package manager specified: $PACKAGE_MANAGER"
         exit 1

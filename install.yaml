@@ -19,7 +19,7 @@ post_install_actions:
     cat apache/vite.conf | sed "s/__VITE_DOMAIN__/$VITE_DOMAIN/" > temp && mv temp apache/vite.conf
 
   - |
-    printf "\n\nWhich package manager do you want to use in your project (default: npm)? [npm, yarn, pnpm]"
+    printf "\n\nWhich package manager do you want to use in your project (default: npm)? [npm, yarn, pnpm, bun]"
 
   - |
     #ddev-description:Write package manager to config file

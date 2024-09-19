@@ -94,6 +94,19 @@ teardown() {
   test -f dist/.vite/manifest.json
 }
 
+@test "bun: install from directory and run build" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+  VITE_PACKAGE_MANAGER=bun ddev get ${DIR}
+  ddev restart >/dev/null
+  ddev exec npm install -g bun@latest
+  ddev exec bun install -D vite
+  touch index.html
+  ddev vite build --manifest
+  test -f dist/index.html
+  test -f dist/.vite/manifest.json
+}
+
 @test "Nginx: install from directory and run dev server" {
   set -eu -o pipefail
   cd ${TESTDIR}
