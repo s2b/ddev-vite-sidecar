@@ -15,8 +15,21 @@ to your project's main domain, which means that no ports need to be exposed to t
 
 Use these commands to add the add-on to your DDEV project:
 
+For DDEV v1.23.5 or above run
+
+```sh
+ddev add-on get s2b/ddev-vite-sidecar
+```
+
+For earlier versions of DDEV run
+
 ```sh
 ddev get s2b/ddev-vite-sidecar
+```
+
+Then restart your project
+
+```sh
 ddev restart
 ```
 
