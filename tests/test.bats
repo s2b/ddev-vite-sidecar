@@ -11,6 +11,10 @@ setup() {
   ddev start -y >/dev/null
 }
 
+setup_vite() {
+  touch index.html
+}
+
 start_dev_server() {
   # Start dev server in the background to be able to continue test
   screen -d -m ddev vite
@@ -52,7 +56,7 @@ teardown() {
   ddev restart >/dev/null
   ddev exec npm i vite
   error_checks
-  touch index.html
+  setup_vite
   start_dev_server
   health_checks
 }
@@ -63,7 +67,7 @@ teardown() {
   VITE_PACKAGE_MANAGER=npm ddev get ${DIR}
   ddev restart >/dev/null
   ddev exec npm install -D vite
-  touch index.html
+  setup_vite
   ddev vite build --manifest
   test -f dist/index.html
   test -f dist/.vite/manifest.json
@@ -75,7 +79,7 @@ teardown() {
   VITE_PACKAGE_MANAGER=yarn ddev get ${DIR}
   ddev restart >/dev/null
   ddev exec yarn add -D vite
-  touch index.html
+  setup_vite
   ddev vite build --manifest
   test -f dist/index.html
   test -f dist/.vite/manifest.json
@@ -88,7 +92,7 @@ teardown() {
   ddev restart >/dev/null
   ddev exec npm install -g pnpm
   ddev exec pnpm add -D vite
-  touch index.html
+  setup_vite
   ddev vite build --manifest
   test -f dist/index.html
   test -f dist/.vite/manifest.json
@@ -101,7 +105,7 @@ teardown() {
   ddev restart >/dev/null
   ddev exec npm install -g bun@latest
   ddev exec bun install -D vite
-  touch index.html
+  setup_vite
   ddev vite build --manifest
   test -f dist/index.html
   test -f dist/.vite/manifest.json
@@ -115,7 +119,7 @@ teardown() {
   ddev restart >/dev/null
   ddev exec npm i vite
   error_checks
-  touch index.html
+  setup_vite
   start_dev_server
   health_checks
 }
@@ -128,7 +132,7 @@ teardown() {
   ddev restart >/dev/null
   ddev exec npm i vite
   error_checks
-  touch index.html
+  setup_vite
   start_dev_server
   health_checks
 }
