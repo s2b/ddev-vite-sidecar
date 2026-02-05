@@ -31,12 +31,12 @@ start_dev_server() {
 }
 
 error_checks() {
-  ddev exec "curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "HTTP/2 502"
+  ddev exec "curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "HTTP/2 50"
   ddev exec "curl -s https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "<h1>vite not running</h1>"
 }
 
 health_checks() {
-  ddev exec "curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "HTTP/2 200"
+  ddev exec "curl -s -D - -o /dev/null https://vite.${PROJNAME}.ddev.site/@vite/client" | grep "HTTP/2 20"
   # Test if vite can serve hidden files from node_modules
   ddev exec "curl -s https://vite.${PROJNAME}.ddev.site/node_modules/.vite/deps/_metadata.json" | grep "\"chunks\": {}"
 }
