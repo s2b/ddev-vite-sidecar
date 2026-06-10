@@ -103,7 +103,8 @@ teardown() {
   cd ${TESTDIR}
   VITE_PACKAGE_MANAGER=bun ddev get ${DIR}
   ddev restart >/dev/null
-  ddev exec npm install -g bun@latest
+  ddev exec "curl -fsSL https://bun.com/install | bash"
+  ddev exec "mkdir -p ~/bin && ln -s ~/.bun/bin/bun ~/bin/bun"
   ddev exec bun install -D vite
   setup_vite
   ddev vite build --manifest
